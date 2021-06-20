@@ -70,4 +70,20 @@ describe('Blockchain Class', () => {
         const genesisValidate = firstBlockChain.isValidChain([secondBlockChain.getLastBlock()])
         expect(genesisValidate).toBe(false)
     })
+    test('Should not replace chain by length', () => {
+        const chain:Block[] = [Block.genesis()] 
+        const hashCreator = new Hash()
+        const mineBlock = new MineBlock(hashCreator)
+        const validateChain = new ValidateChain(hashCreator)
+        const firstBlockChain = new BlockChain(chain, mineBlock, validateChain)
+        const secondBlockChain = new BlockChain(chain, mineBlock, validateChain)
+        const data:Transaction = {
+            from_id: 'valid_id',
+            target_id: 'valid_id',
+            value: 1000
+        }
+        firstBlockChain.addBlock(data)
+        const replaceResult = firstBlockChain.replaceChain(secondBlockChain.getChain)
+        expect(replaceResult).toEqual(new Error('Chain is not longer than the current chain'))
+    })
 })
