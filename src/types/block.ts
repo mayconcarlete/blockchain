@@ -12,7 +12,7 @@ export class Block {
     }
     get getTimestamp (){return this.timestamp}
     get getHash(){return this.hash}
-    get getLasHash(){return this.lastHash}
+    get getLastHash(){return this.lastHash}
     get getData(){return this.data}
     
     static genesis():Block{
