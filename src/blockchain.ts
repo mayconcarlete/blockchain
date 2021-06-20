@@ -17,5 +17,4 @@ export class BlockChain implements AddBlock{
     getLastBlock():Block{
         return this.chain[this.chain.length - 1]
     }
-
 }
