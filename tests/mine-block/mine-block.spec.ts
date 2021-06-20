@@ -17,9 +17,9 @@ describe('MineBlock Class', () => {
             target_id: 'valid_id',
             value: 1
         }
-        const mineBlock = new MineBlock(mockHash, Block.genesis(), data)
-        const newBlock = await mineBlock.mine()
-        // expect(await mineBlock.mine()).toEqual(new Block(timestamp, 'first hash', 'mock-new-hash', data))
+        const mineBlock = new MineBlock(mockHash)
+        const newBlock = mineBlock.mine(Block.genesis(), data)
+        
         expect(typeof(newBlock.getTimestamp)).toBe('number')
         expect(newBlock.getLasHash).toBe('first hash')
         expect(newBlock.getHash).toBe('mock-new-hash')
