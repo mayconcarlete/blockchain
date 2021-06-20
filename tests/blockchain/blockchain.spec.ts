@@ -14,10 +14,8 @@ describe('Blockchain Class', () => {
             value: 1
         }
         const secondBlock = new Block(timestamp, lastHash, hash, data)
-
         const blockChain = new BlockChain([genesisBlock, secondBlock])
 
         expect(blockChain.getLastBlock()).toEqual(secondBlock)
-        
     })
 })
