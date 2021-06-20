@@ -23,6 +23,19 @@ export class BlockChain implements AddBlock{
         return this.chain[this.chain.length - 1]
     }
 
+    replaceChain(newChain: Block[]):Error | void{
+        if(newChain.length <= this.chain.length){
+            return new Error('Chain is not longer than the current chain') 
+        }
+        else if (!this.isValidChain(newChain)){
+            return new Error('Invalid chain')
+        }
+        else{
+            console.log('Replacing blockchain with the new chain')
+            this.chain = newChain
+        }
+    }
+    
     isValidChain(chain: Block[]):boolean{
         return this.validateChain.validate(chain)
     }
