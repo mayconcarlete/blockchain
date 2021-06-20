@@ -4,13 +4,11 @@ import { Transaction } from "@src/types/transaction";
 
 export class MineBlock {
     constructor(
-        private readonly hash: MakeHash,
-        private readonly lastBlock: Block,
-        private readonly data: Transaction
+        private readonly hash: MakeHash
     ){}
-    mine():Block{
+    mine(lastBlock: Block, data: Transaction):Block{
         const timestamp = Date.now()
-        const hash = this.hash.create(timestamp, this.lastBlock.getHash, this.data)
-        return new Block(timestamp, this.lastBlock.getHash, hash, this.data)
+        const hash = this.hash.create(timestamp, lastBlock.getHash, data)
+        return new Block(timestamp, lastBlock.getHash, hash, data)
     }
 }

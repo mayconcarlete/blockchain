@@ -5,7 +5,7 @@ export class Block {
         private readonly timestamp: number,
         private readonly lastHash: string,
         private readonly hash: string,
-        private readonly data: Transaction
+        private readonly data: Transaction,
     ){}
     toString():string {
         return `timestamp: ${this.timestamp} lastHash: ${this.lastHash} hash: ${this.hash} data: ${this.data}`
