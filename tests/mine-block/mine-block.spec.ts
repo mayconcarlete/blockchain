@@ -11,14 +11,18 @@ class MockHash implements MakeHash {
 
 describe('MineBlock Class', () => {
     test('Should return mine new block', async () => {
-        const timestamp = Date.now()
         const mockHash = new MockHash()
         const data:Transaction = {
             from_id: 'valid_id',
             target_id: 'valid_id',
             value: 1
         }
-        const mineBlock = new MineBlock(timestamp, mockHash, Block.genesis(), data)
-        expect(await mineBlock.mine()).toEqual(new Block(timestamp, 'first hash', 'mock-new-hash', data))
+        const mineBlock = new MineBlock(mockHash, Block.genesis(), data)
+        const newBlock = await mineBlock.mine()
+        // expect(await mineBlock.mine()).toEqual(new Block(timestamp, 'first hash', 'mock-new-hash', data))
+        expect(typeof(newBlock.getTimestamp)).toBe('number')
+        expect(newBlock.getLasHash).toBe('first hash')
+        expect(newBlock.getHash).toBe('mock-new-hash')
+        expect(newBlock.getData).toEqual(data)
     })
 })
