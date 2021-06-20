@@ -53,7 +53,7 @@ describe('Blockchain Class', () => {
         }
         const secondBlockChain = new BlockChain(chain, mineBlock, validateChain)
         secondBlockChain.addBlock(data)
-        expect(firstBlockChain.isValidChain(secondBlockChain.getChain)).toBe(true)
+        expect(firstBlockChain.isValidChain(secondBlockChain.getChain())).toBe(true)
     })
     test('Should invalidates a chain with a corrupted Genesis Block', () => {
         const chain:Block[] = [Block.genesis()] 
@@ -76,14 +76,36 @@ describe('Blockchain Class', () => {
         const mineBlock = new MineBlock(hashCreator)
         const validateChain = new ValidateChain(hashCreator)
         const firstBlockChain = new BlockChain(chain, mineBlock, validateChain)
-        const secondBlockChain = new BlockChain(chain, mineBlock, validateChain)
+        const secondBlockChain = new BlockChain([Block.genesis()], mineBlock, validateChain)
         const data:Transaction = {
             from_id: 'valid_id',
             target_id: 'valid_id',
             value: 1000
         }
         firstBlockChain.addBlock(data)
-        const replaceResult = firstBlockChain.replaceChain(secondBlockChain.getChain)
+        const replaceResult = firstBlockChain.replaceChain(secondBlockChain.getChain())
         expect(replaceResult).toEqual(new Error('Chain is not longer than the current chain'))
+    })
+    test('Should not replace chain by invalid validation', () => {
+        const chain:Block[] = [Block.genesis()] 
+        const hashCreator = new Hash()
+        const mineBlock = new MineBlock(hashCreator)
+        const validateChain = new ValidateChain(hashCreator)
+        const firstBlockChain = new BlockChain(chain, mineBlock, validateChain)
+        const secondBlockChain = new BlockChain([Block.genesis()], mineBlock, validateChain)
+        
+        jest.spyOn(secondBlockChain, 'getChain').mockReturnValueOnce([new Block(100, 'invalid_last_hash', 'invalid_hash', {
+            from_id:'dummy_value',
+            target_id: 'dummy_value',
+            value: 100
+        }),new Block(100, 'invalid_last_hash', 'invalid_hash', {
+            from_id:'dummy_value',
+            target_id: 'dummy_value',
+            value: 100
+        })
+    ])
+
+        const replaceResult = firstBlockChain.replaceChain(secondBlockChain.getChain())
+        expect(replaceResult).toEqual(new Error('Invalid chain'))
     })
 })
