@@ -8,4 +8,7 @@ export class Block {
     toString():string {
         return `timestamp: ${this.timestamp} lastHash: ${this.lastHash} hash: ${this.hash} date: ${this.date}`
     }
+    static genesis():Block{
+        return new this(0, '', 'first hash', 0)
+    }
 }
