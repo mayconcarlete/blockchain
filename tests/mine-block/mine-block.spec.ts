@@ -21,7 +21,7 @@ describe('MineBlock Class', () => {
         const newBlock = mineBlock.mine(Block.genesis(), data)
         
         expect(typeof(newBlock.getTimestamp)).toBe('number')
-        expect(newBlock.getLasHash).toBe('first hash')
+        expect(newBlock.getLastHash).toBe('first hash')
         expect(newBlock.getHash).toBe('mock-new-hash')
         expect(newBlock.getData).toEqual(data)
     })
