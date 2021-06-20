@@ -10,6 +10,9 @@ export class BlockChain implements AddBlock{
         private readonly mineBlock: MineBlock,
         private readonly validateChain: ValidateChain
     ){}
+
+    get getChain(){return this.chain}
+    
     addBlock(data: Transaction): Block {
         const lastBlock = this.getLastBlock()
         this.chain.push(this.mineBlock.mine(lastBlock, data))
@@ -19,7 +22,8 @@ export class BlockChain implements AddBlock{
     getLastBlock():Block{
         return this.chain[this.chain.length - 1]
     }
-    isValidChain():boolean{
-        return this.validateChain.validate(this.chain)
+
+    isValidChain(chain: Block[]):boolean{
+        return this.validateChain.validate(chain)
     }
 }
