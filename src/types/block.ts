@@ -10,6 +10,9 @@ export class Block {
     toString():string {
         return `timestamp: ${this.timestamp} lastHash: ${this.lastHash} hash: ${this.hash} data: ${this.data}`
     }
+    get getHash(){
+        return this.hash
+    }
     static genesis():Block{
         const genesisTransaction:Transaction = {
             from_id: 'genesis_id',
