@@ -104,8 +104,23 @@ describe('Blockchain Class', () => {
             value: 100
         })
     ])
-
         const replaceResult = firstBlockChain.replaceChain(secondBlockChain.getChain())
         expect(replaceResult).toEqual(new Error('Invalid chain'))
+    })
+    test('Should be falsy if chain are replaced', () => {
+        const chain:Block[] = [Block.genesis()] 
+        const hashCreator = new Hash()
+        const mineBlock = new MineBlock(hashCreator)
+        const validateChain = new ValidateChain(hashCreator)
+        const firstBlockChain = new BlockChain(chain, mineBlock, validateChain)
+        const secondBlockChain = new BlockChain([Block.genesis()], mineBlock, validateChain)   
+        const data:Transaction = {
+            from_id: 'valid_id',
+            target_id: 'valid_id',
+            value: 1000
+        }
+        secondBlockChain.addBlock(data)
+        const replaceResult = firstBlockChain.replaceChain(secondBlockChain.getChain())
+        expect(replaceResult).toBeFalsy()
     })
 })
