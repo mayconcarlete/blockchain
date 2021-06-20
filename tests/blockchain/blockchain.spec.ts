@@ -1,5 +1,6 @@
 import { BlockChain } from "@src/blockchain"
 import { Hash } from "@src/helpers/hash"
+import { ValidateChain } from "@src/helpers/validate-chain"
 import { MineBlock } from "@src/services/mine-block/mine-block"
 import { Block } from "@src/types/block"
 import { Transaction } from "@src/types/transaction"
@@ -18,7 +19,8 @@ describe('Blockchain Class', () => {
         const secondBlock = new Block(timestamp, lastHash, hash, data)
         const hashCreator = new Hash()
         const mineBlock = new MineBlock(hashCreator)
-        const blockChain = new BlockChain([genesisBlock, secondBlock], mineBlock)
+        const validateChain = new ValidateChain(hashCreator)
+        const blockChain = new BlockChain([genesisBlock, secondBlock], mineBlock, validateChain)
 
         expect(blockChain.getLastBlock()).toEqual(secondBlock)
     })
@@ -31,10 +33,26 @@ describe('Blockchain Class', () => {
         }
         const hashCreator = new Hash()
         const mineBlock = new MineBlock(hashCreator)
-        const blockChain = new BlockChain([genesisBlock], mineBlock)
+        const validateChain = new ValidateChain(hashCreator)
+        const blockChain = new BlockChain([genesisBlock], mineBlock, validateChain)
         blockChain.addBlock(data)
         const lastBlock = blockChain.getLastBlock()
         expect(lastBlock.getData).toEqual(data)
         expect(lastBlock.getLastHash).toBe(genesisBlock.getHash)
+    })
+    test('Should validate a chain', () => {
+        const chain:Block[] = [Block.genesis()]
+        const hashCreator = new Hash()
+        const mineBlock = new MineBlock(hashCreator)
+        const validateChain = new ValidateChain(hashCreator)
+        const firstBlockChain = new BlockChain(chain, mineBlock, validateChain)
+        const data:Transaction = {
+            from_id: 'valid_id',
+            target_id: 'valid_id',
+            value: 1000
+        }
+        const secondBlockChain = new BlockChain(chain, mineBlock, validateChain)
+        secondBlockChain.addBlock(data)
+        expect(firstBlockChain.isValidChain()).toBe(true)
     })
 })
