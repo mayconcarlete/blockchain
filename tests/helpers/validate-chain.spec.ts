@@ -15,7 +15,8 @@ describe('Validate Chain Class', () => {
             value: 1
         }
         const chain:Block[] = [new Block(timestamp, lastHash, hash, data)]
-        const validateChain = new ValidateChain()
+        const hashCreator = new Hash()
+        const validateChain = new ValidateChain(hashCreator)
         const isValidChain = validateChain.validate(chain)
         expect(isValidChain).toBe(false)
     })
@@ -39,7 +40,7 @@ describe('Validate Chain Class', () => {
         chain.push(secondBlock)
         const thirdBlock = mineBlock.mine(chain[0], data2)
         chain.push(thirdBlock)
-        const validateChain = new ValidateChain()
+        const validateChain = new ValidateChain(hashCreator)
         const isValidChain = validateChain.validate(chain)
         expect(isValidChain).toBe(false)
     })
