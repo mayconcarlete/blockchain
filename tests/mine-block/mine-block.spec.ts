@@ -4,10 +4,8 @@ import { Block } from '@src/types/block'
 import { Transaction } from '@src/types/transaction'
 
 class MockHash implements MakeHash {
-    create(): Promise<string> {
-        return new Promise((resolve, reject) => {
-            resolve('mock-new-hash')
-        })
+    create():string {
+        return 'mock-new-hash'
     }
 }
 
