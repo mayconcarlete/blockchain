@@ -1,6 +1,11 @@
-export type Block = {
-    timestamp: Date
-    lastHash: string
-    hash: string
-    date: Date
+export class Block {
+    constructor(
+        private readonly timestamp: number,
+        private readonly lastHash: string,
+        private readonly hash: string,
+        private readonly date: number
+    ){}
+    toString():string {
+        return `timestamp: ${this.timestamp} lastHash: ${this.lastHash} hash: ${this.hash} date: ${this.date}`
+    }
 }
