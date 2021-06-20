@@ -11,7 +11,7 @@ export class BlockChain implements AddBlock{
         private readonly validateChain: ValidateChain
     ){}
 
-    get getChain(){return this.chain}
+    getChain(){return this.chain}
     
     addBlock(data: Transaction): Block {
         const lastBlock = this.getLastBlock()
