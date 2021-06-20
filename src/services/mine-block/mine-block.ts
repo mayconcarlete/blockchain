@@ -10,7 +10,7 @@ export class MineBlock {
         private readonly data: Transaction
     ){}
     async mine():Promise<Block>{
-        const hash = await this.hash.create()
+        const hash = await this.hash.create(this.timestamp, this.lastBlock.getHash, this.data)
         return new Block(this.timestamp, this.lastBlock.getHash, hash, this.data)
     }
 }
