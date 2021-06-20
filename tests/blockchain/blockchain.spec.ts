@@ -53,6 +53,21 @@ describe('Blockchain Class', () => {
         }
         const secondBlockChain = new BlockChain(chain, mineBlock, validateChain)
         secondBlockChain.addBlock(data)
-        expect(firstBlockChain.isValidChain()).toBe(true)
+        expect(firstBlockChain.isValidChain(secondBlockChain.getChain)).toBe(true)
+    })
+    test('Should invalidates a chain with a corrupted Genesis Block', () => {
+        const chain:Block[] = [Block.genesis()] 
+        const hashCreator = new Hash()
+        const mineBlock = new MineBlock(hashCreator)
+        const validateChain = new ValidateChain(hashCreator)
+        const firstBlockChain = new BlockChain(chain, mineBlock, validateChain)
+        const secondBlockChain = new BlockChain(chain, mineBlock, validateChain)
+        jest.spyOn(secondBlockChain, 'getLastBlock').mockReturnValueOnce(new Block(100, 'invalid_last_hash', 'invalid_hash', {
+            from_id:'dummy_value',
+            target_id: 'dummy_value',
+            value: 100
+        }))
+        const genesisValidate = firstBlockChain.isValidChain([secondBlockChain.getLastBlock()])
+        expect(genesisValidate).toBe(false)
     })
 })
